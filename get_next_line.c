@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnjuguna <cnjuguna@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cloud <cloud@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/02/04 13:58:42 by bsouchet          #+#    #+#             */
-/*   Updated: 2019/12/16 19:09:54 by cnjuguna         ###   ########.fr       */
+/*   Created: 2020/11/21 18:52:19 by cloud             #+#    #+#             */
+/*   Updated: 2020/11/21 18:52:24 by cloud            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ static int		ft_zero(char **line, char **str, int fd)
 
 int				get_next_line(int fd, char **line)
 {
-	static char	*str[OPEN_MAX];
+	static char	*str[FOPEN_MAX];
 	long		ret;
 	char		*s;
 
-	if (!line || BUFFER_SIZE < 1 || fd < 0 || fd > OPEN_MAX)
+	if (!line || BUFFER_SIZE < 1 || fd < 0 || fd > FOPEN_MAX)
 		return (-1);
 	if (!str[fd])
 		str[fd] = ft_strdup("");
@@ -75,32 +75,17 @@ int				get_next_line(int fd, char **line)
 	return (0);
 }
 
-// int		main(int argc, char **argv)
-// {
-// 	int fd = open("test_rh.dict", O_RDONLY);
-// 	char *line;
-// 	char **str = &line;
-	
-// 	int fd2 = open("test.dict", O_RDONLY);
-// 	char *line2;
-// 	char **str2 = &line2;
-// 	while (1)
-// 	{
-// 		int ret = get_next_line(fd, &line);
-// 		free(line);
-// 		int ret2 = get_next_line(fd2, &line2);
-// 		free(line2);
-// 		if (!ret2)
-// 			return (0);
-// 	}
-// }
+int		main()
+{
+	int fd = open("test.dict", O_RDONLY);
+	char *line;
 
-// // 	// 	while (1)
-// // 	// {
-// // 	// 	int ret2 = get_next_line(fd2, &line2);
-// // 	// 	//printf("%d |%s|\n", ret, line);
-// // 	// 	free(line2);
-// // 	// 	if (!ret2)
-// // 	// 		return (0);
-// // 	// }
-// // }
+	while (1)
+	{
+		int ret = get_next_line(fd, &line);
+		printf("%d |%s|\n", ret, line);
+		free(line);
+		if (!ret)
+			return (0);
+	}
+}
