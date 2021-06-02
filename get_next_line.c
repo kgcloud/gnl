@@ -3,22 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cloud <cloud@student.42.fr>                +#+  +:+       +#+        */
+/*   By: KgCloud <KgCloud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/21 18:52:19 by cloud             #+#    #+#             */
-/*   Updated: 2020/11/24 12:03:12 by cloud            ###   ########.fr       */
+/*   Updated: 2021/06/02 16:12:27 by KgCloud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static int		ft_read(char **str, int fd)
+static int	ft_read(char **str, int fd)
 {
 	int				ret;
 	char			buf[BUFFER_SIZE + 1];
 	char			*tmp;
 
-	if ((ret = read(fd, buf, BUFFER_SIZE)) == -1)
+	ret = read(fd, buf, BUFFER_SIZE);
+	if (ret == -1)
 		return (-1);
 	buf[ret] = '\0';
 	tmp = *str;
@@ -28,20 +29,31 @@ static int		ft_read(char **str, int fd)
 	return (ret);
 }
 
-static int		ft_one(char **str, char **line, char *s)
+static int	ft_one(char **str, char **line, char *s)
 {
-	char *tmp;
+	char	*tmp;
 
 	*s = '\0';
 	*line = ft_strdup(*str);
+	if (*line == NULL)
+	{	
+		free(tmp);
+		return (-1);
+	}
 	tmp = *str;
 	*str = ft_strdup(s + 1);
+	if (*str == NULL)
+	{
+		free(tmp);
+		free(line);
+		return (-1);
+	}
 	free(tmp);
 	tmp = NULL;
 	return (1);
 }
 
-static int		ft_zero(char **line, char **str, int fd)
+static int	ft_zero(char **line, char **str, int fd)
 {
 	*line = ft_strdup(str[fd]);
 	free(str[fd]);
@@ -49,7 +61,7 @@ static int		ft_zero(char **line, char **str, int fd)
 	return (0);
 }
 
-int				get_next_line(int fd, char **line)
+int	get_next_line(int fd, char **line)
 {
 	static char	*str[OPEN_MAX];
 	long		ret;
@@ -71,7 +83,8 @@ int				get_next_line(int fd, char **line)
 				return (ft_zero(line, str, fd));
 			s++;
 		}
-		if ((ret = ft_read(&str[fd], fd)) == -1)
+		ret = ft_read(&str[fd], fd);
+		if (ret == -1)
 			return (-1);
 	}
 	return (0);

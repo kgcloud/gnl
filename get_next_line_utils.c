@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cloud <cloud@student.42.fr>                +#+  +:+       +#+        */
+/*   By: KgCloud <KgCloud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/21 18:52:55 by cloud             #+#    #+#             */
-/*   Updated: 2020/11/24 11:58:55 by cloud            ###   ########.fr       */
+/*   Updated: 2021/06/02 16:08:59 by KgCloud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ char	*ft_strn(size_t size)
 {
 	char	*s;
 
-	if (!(s = malloc(sizeof(char) * size + 1)))
+	s = malloc(sizeof(char) * size + 1);
+	if (s == NULL)
 		return (NULL);
 	while (size != 0)
 	{
@@ -45,7 +46,8 @@ char	*ft_strjoin(char *s1, char *s2)
 	char	*s;
 	size_t	n;
 
-	if ((s = ft_strn((size_t)(ft_len(s1) + ft_len(s2)))) == NULL)
+	s = ft_strn((size_t)(ft_len(s1) + ft_len(s2)));
+	if (s == NULL)
 		return (s);
 	n = 0;
 	while (s1[n])
